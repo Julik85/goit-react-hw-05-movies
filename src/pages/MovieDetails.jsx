@@ -6,6 +6,9 @@ import Reviews from './Reviews';
 import Cast from './Cast';
 import { MovieDetailsList, MovieDetailsOverview, MovieDetailsTitle, MovieDetailsWrapp } from './MovieDetails.styled';
 
+
+
+
 function MovieDetails() {
   const [movieData, setMovieData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
