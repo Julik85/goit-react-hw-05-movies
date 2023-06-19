@@ -2,6 +2,7 @@ import { getMovieReviews } from 'api/themovied_api';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { ReviewsItem } from './Reviews.styled';
 
 function Reviews() {
   const [movieReviews, setMovieReviews] = useState(null);
@@ -35,10 +36,10 @@ function Reviews() {
             movieReviews.length > 0 &&
             movieReviews.map(({ id, author, content }) => {
               return (
-                <li key={id}>
+                <ReviewsItem key={id}>
                   <h3>{author}</h3>
                   <p>{content}</p>
-                </li>
+                </ReviewsItem>
               );
             })}
         </ul>

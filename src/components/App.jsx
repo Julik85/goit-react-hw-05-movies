@@ -1,30 +1,20 @@
 import Home from 'pages/Home';
 import MovieDetails from 'pages/MovieDetails';
 import Movies from 'pages/Movies';
+import NotFound from 'pages/NotFound';
 import React from 'react';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { Layout } from './Layout/Layout';
 
 export const App = () => {
   return (
-    <div>
-      <header>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/movies">Search</Link>
-          </li>
-        </ul>
-      </header>
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/movies/:movieId/*" element={<MovieDetails />} />
-        </Routes>
-
-      </main>
-    </div>
+           <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/movies" element={<Movies />} />
+            <Route path="/movies/:movieId/*" element={<MovieDetails />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>   
   );
 };

@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { TrendingList } from './Home.styled';
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -15,7 +16,7 @@ function Home() {
       try {
         const result = await getTrendingMovies();
         setMovies(result.results);
-        console.log(result);
+        
        
       } catch (error) {
         setError(error.message);
@@ -31,17 +32,24 @@ function Home() {
     <>
       <div>
         <h1>Trendings</h1>
-        <ul>
+        <TrendingList>
           {Array.isArray(movies) &&
             movies.length > 0 &&
             movies.map(movie => {
               return (
                 <li key={movie.id}>
-                  <Link to={`/movies/${movie.id}`}> title: {movie.title}</Link>
+                  <Link to={`/movies/${movie.id}`}>
+                  <img className=" movie-poster"
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  width="300"
+                  height="450"/>
+                   <p>{movie.title}</p>
+                  </Link>
                 </li>
               );
             })}
-        </ul>
+        </TrendingList>
       </div>
       {isLoading && <p>loading...</p>}
       {error.length > 0 && <p>{error}</p>}

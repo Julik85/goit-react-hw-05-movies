@@ -2,6 +2,7 @@ import { getMovieCast } from 'api/themovied_api';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { CastList } from './Cast.styled';
 
 function Cast() {
   const [movieCast, setMovieCast] = useState(null);
@@ -26,17 +27,24 @@ function Cast() {
     fetchMovieCast();
   }, [movieId]);
 
+  
+
   return (
     <>
       <div>
         <h2>Cast</h2>
-        <ul>
+        <CastList>
           {Array.isArray(movieCast) &&
             movieCast.length > 0 &&
             movieCast.map(castItem => {
-              return <li key={castItem.id}>{castItem.character}</li>;
+              const actorPhoto = `https://image.tmdb.org/t/p/w500/${castItem.profile_path}`
+              return <li key={castItem.id}>
+              <img src={actorPhoto} alt={castItem.name} width="200"
+                  height="300"/>
+                  <p>{castItem.character}</p>
+                  <p>{castItem.name}</p></li>;
             })}
-        </ul>
+        </CastList>
       </div>
       {isLoading && <p>loading...</p>}
       {error.length > 0 && <p>{error}</p>}

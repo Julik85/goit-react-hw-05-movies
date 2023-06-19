@@ -1,9 +1,10 @@
 import { getMovieDetails } from 'api/themovied_api';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, Routes, Route, useParams } from 'react-router-dom';
+import { Link, Routes, Route, useParams, useLocation } from 'react-router-dom';
 import Reviews from './Reviews';
 import Cast from './Cast';
+import { MovieDetailsList, MovieDetailsOverview, MovieDetailsTitle, MovieDetailsWrapp } from './MovieDetails.styled';
 
 function MovieDetails() {
   const [movieData, setMovieData] = useState(null);
@@ -11,10 +12,16 @@ function MovieDetails() {
   const [error, setError] = useState('');
   const { movieId } = useParams();
 
+  const location = useLocation();
+  const backLink = location.state?.from;
+  
+  console.log('movieData:', movieData);
+  
+  
   useEffect(() => {
     const fetchMovieData = async () => {
-      setIsloading(true);
       try {
+        setIsloading(true);
         const result = await getMovieDetails(movieId);
         setMovieData(result);
         console.log(result);
@@ -24,28 +31,37 @@ function MovieDetails() {
         setIsloading(false);
       }
     };
-
+    
+      
     fetchMovieData();
   }, [movieId]);
 
+  
 
-  // const { title, overview} = movieData
-
+ 
+  
   return (
+    
     <>
       {movieData !== null && (
-        <div>
-          <h1>title: {movieData.title}</h1>
-          <p>{movieData.overview}</p>
-        </div>
+        <MovieDetailsWrapp>
+          <MovieDetailsTitle>{movieData.title}</MovieDetailsTitle>
+          <img className=" movie-poster"
+            src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
+            alt={movieData.title}
+            width="300"
+            height="450"/>
+          <MovieDetailsOverview>{movieData.overview}</MovieDetailsOverview>
+        </MovieDetailsWrapp>
       )}
       {isLoading && <p>loading...</p>}
       {error.length > 0 && <p>{error}</p>}
       <div>
-        <ul>
+        <MovieDetailsList>
          <li> <Link to={`cast`}> Cast</Link></li>
-          <li><Link to={`reviews`}> Reviews</Link></li>    
-        </ul>  
+          <li><Link to={`reviews`}> Reviews</Link></li>
+          <li><Link className='back-menu' to={backLink ?? '/'}>Back</Link></li>    
+        </MovieDetailsList>  
       </div>
       <div>
         <Routes>
